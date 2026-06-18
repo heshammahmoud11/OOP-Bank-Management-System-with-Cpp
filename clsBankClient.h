@@ -13,8 +13,8 @@ class clsBankClient : public clsPerson
 private:
 
     enum enMode { EmptyMode = 0, UpdateMode = 1 };
-    enMode _Mode;
 
+    enMode _Mode;
     string _AccountNumber;
     string _PinCode;
     float _AccountBalance;
@@ -47,12 +47,69 @@ private:
         return clsBankClient(enMode::EmptyMode, "", "", "", "", "", "", 0);
     }
 
+    vector<clsBankClient> _LoadClientDataFromFile()
+    {
+        vector<clsBankClient> vClients;
 
+        fstream myFile;
+        myFile.open("Client.txt", ios::in); // Read File Data
+
+        if(myFile.is_open())
+        {
+            string line;
+
+            while(getline(myFile, line))
+            {
+                clsBankClient client = _ConvertLineToClientObject(line);
+                vClients.push_back(client);
+            }
+
+            myFile.close();
+         }
+
+         return vClients;
+    }
+
+    static void _SaveClientDataToFile(vector<clsBankClient> vClients)
+    {
+        fstream myFile;
+        myFile.open("Client.txt", ios::out); // Write the updated data with overwrite Mode
+
+        if(myFile.is_open())
+        {
+            string line;
+
+            for(clsBankClient & c : vClients)
+            {
+                line = _ConvertClientObjectToLine(c);
+                myFile << line << endl;
+            }
+
+            myFile.close();
+        }
+    }
+ 
+    void _Update()
+    {
+        vector<clsBankClient> _vClients = _LoadClientDataFromFile();
+
+        for(clsBankClient & c : _vClients)
+        {
+            if(c.AccountNumber() == AccountNumber())
+            {
+                // updated informatin exist in -> *this (Memory)
+                // file data (not updated) -> c (File)
+                c = *this;
+                break;
+            }
+        }
+
+        _SaveClientDataToFile(_vClients);
+
+    }
 
 public:
  
-    clsBankClient();
-
     clsBankClient(enMode Mode, string FirstName, string LastName,
         string Email, string Phone, string AccountNumber, string PinCode,
         float AccountBalance) :
@@ -114,8 +171,6 @@ public:
         cout << "\n___________________\n";
 
     }
-
-
 
 
 
@@ -183,4 +238,36 @@ public:
         clsBankClient Client = clsBankClient::Find(AccountNumber);
         return (!Client.IsEmpty());
     }
+
+
+    enum enSaveResults {svFaildEmptyObject = 0, svSucceeded = 1};
+
+
+    enSaveResults Save()
+    {
+        // if clsBankClient == empty -> Not save
+
+        switch (_Mode)
+        {
+            case  enMode::EmptyMode :
+            {
+                return enSaveResults::svFaildEmptyObject;
+            }
+
+            case enMode::UpdateMode : 
+            {
+                _Update();
+                return enSaveResults::svSucceeded;
+                break;
+            }
+                
+        }
+    
+    return enSaveResults::svFaildEmptyObject;
+
+        // if clsBankClient = NotEmpty -> Save
+    }
 }; 
+
+
+
