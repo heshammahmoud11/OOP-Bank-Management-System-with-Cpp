@@ -12,12 +12,14 @@ class clsBankClient : public clsPerson
 {
 private:
 
-    enum enMode { EmptyMode = 0, UpdateMode = 1 };
+    enum enMode { EmptyMode = 0, UpdateMode = 1, AddNewMode = 2 };
 
     enMode _Mode;
     string _AccountNumber;
     string _PinCode;
     float _AccountBalance;
+    bool _MarkedForDelete = false;
+    
 
     static clsBankClient _ConvertLineToClientObject(string line, string seperator = "#//#")
     {
@@ -73,7 +75,7 @@ private:
     static void _SaveClientDataToFile(vector<clsBankClient> vClients)
     {
         fstream myFile;
-        myFile.open("Client.txt", ios::out); // Write the updated data with overwrite Mode
+        myFile.open("Client.txt", ios::out); // Write the updated data with overwrite Mode (Write everything from scratch)
 
         if(myFile.is_open())
         {
@@ -81,12 +83,29 @@ private:
 
             for(clsBankClient & c : vClients)
             {
-                line = _ConvertClientObjectToLine(c);
-                myFile << line << endl;
+                if(c._MarkedForDelete == false)
+                {
+                    line = _ConvertClientObjectToLine(c);
+                    myFile << line << endl;
+                }
             }
 
             myFile.close();
         }
+    }
+
+
+    void _AddDataLineToFile(string line)
+    {
+        fstream myFile;
+
+        myFile.open("Client.txt", ios::out | ios::app) ; // write in the file, without delete previous data
+        
+        if(myFile.is_open())
+        {
+          myFile << line << endl;   
+        }
+        myFile.close();
     }
  
     void _Update()
@@ -108,6 +127,14 @@ private:
 
     }
 
+
+
+    void _AddNew()
+    {
+
+        _AddDataLineToFile(_ConvertClientObjectToLine(*this));
+
+    }
 public:
  
     clsBankClient(enMode Mode, string FirstName, string LastName,
@@ -128,7 +155,7 @@ public:
         return (_Mode == enMode::EmptyMode);
     }
 
-
+ // Get Account Number Directly
     string AccountNumber()
     {
         return _AccountNumber;
@@ -171,7 +198,6 @@ public:
         cout << "\n___________________\n";
 
     }
-
 
 
     static clsBankClient Find(string AccountNumber)
@@ -240,7 +266,7 @@ public:
     }
 
 
-    enum enSaveResults {svFaildEmptyObject = 0, svSucceeded = 1};
+    enum enSaveResults {svFaildEmptyObject = 0, svSucceeded = 1, svFaildAccountNumberExists = 2};
 
 
     enSaveResults Save()
@@ -258,14 +284,54 @@ public:
             {
                 _Update();
                 return enSaveResults::svSucceeded;
-                break;
+                // break;
+            }
+            case enMode::AddNewMode :
+            {
+                if(clsBankClient::IsClientExist(_AccountNumber))
+                {
+                    return enSaveResults::svFaildAccountNumberExists;
+                }
+                else
+                {
+                    _AddNew();
+
+                    _Mode = enMode::UpdateMode;
+                    return enSaveResults::svSucceeded;
+                }
             }
                 
         }
     
-    return enSaveResults::svFaildEmptyObject;
+      // if clsBankClient = NotEmpty -> Save
+      return enSaveResults::svFaildEmptyObject;
 
-        // if clsBankClient = NotEmpty -> Save
+    }
+
+    static clsBankClient GetAddNewClientObject(string accountNumber)
+    {
+        return clsBankClient(enMode::AddNewMode, "", "", "", "", accountNumber, "", 0);
+    }
+
+    bool Delete()
+    {
+        vector<clsBankClient> _vClients = _LoadClientDataFromFile();
+
+        for(clsBankClient & c : _vClients)
+        {
+            if(c.AccountNumber() == _AccountNumber)
+            {
+                c._MarkedForDelete = true;
+                break;
+            }
+        }
+
+        _SaveClientDataToFile(_vClients);
+
+        *this = _GetEmptyClientObject();
+
+        return true;
+
     }
 }; 
 
