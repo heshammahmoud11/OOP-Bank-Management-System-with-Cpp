@@ -19,7 +19,7 @@ private:
     string _PinCode;
     float _AccountBalance;
     bool _MarkedForDelete = false;
-    
+
 
     static clsBankClient _ConvertLineToClientObject(string line, string seperator = "#//#")
     {
@@ -49,7 +49,7 @@ private:
         return clsBankClient(enMode::EmptyMode, "", "", "", "", "", "", 0);
     }
 
-    vector<clsBankClient> _LoadClientDataFromFile()
+    static vector<clsBankClient> _LoadClientDataFromFile()
     {
         vector<clsBankClient> vClients;
 
@@ -333,6 +333,31 @@ public:
         return true;
 
     }
+
+
+
+    static vector<clsBankClient> GetClientsList()
+    {
+        return _LoadClientDataFromFile();
+    }
+
+
+    static float GetTotalBalances()
+    {
+        vector<clsBankClient> vClients = clsBankClient::GetClientsList();
+
+        double balanceCnt = 0;
+
+        for(clsBankClient & c : vClients)
+        {
+            balanceCnt += c.GetAccountBalance();
+        }
+
+        return balanceCnt;
+    }
+
+
+
 }; 
 
 
