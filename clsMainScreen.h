@@ -4,6 +4,8 @@
 #include<iomanip>
 #include"clsUtil.h"
 #include"clsScreen.h"
+#include"clsClientListScreen.h"
+#include"clsAddNewClientScreen.h"
 using namespace std; 
 
 
@@ -35,40 +37,40 @@ private :
 
     static void _ShowAllClientsListScreen()
     {
-        cout << setw(37) << left << "" << "Show clients list will be here soon\n";
+        clsClientListScreen::ShowClientsList();
     }
     
-    static void _AddNewClientScreen()
+    static void _ShowAddNewClientScreen()
+    {
+        clsAddNewClientScreen::AddNewClient();
+    }
+
+    static void _ShowDeleteClientScreen()
     {
         cout << setw(37) << left << "" << "Show clients list will be here soon\n";
     }
 
-    static void _DeleteClientScreen()
+    static void _ShowUpdateClientScreen()
     {
         cout << setw(37) << left << "" << "Show clients list will be here soon\n";
     }
 
-    static void _UpdateClientScreen()
+    static void _ShowFindClientScreen()
     {
         cout << setw(37) << left << "" << "Show clients list will be here soon\n";
     }
 
-    static void _FindClientScreen()
+    static void _ShowTransactionMenuScreen()
     {
         cout << setw(37) << left << "" << "Show clients list will be here soon\n";
     }
 
-    static void _TransactionMenuScreen()
+    static void _ShowManageUsersScreen()
     {
         cout << setw(37) << left << "" << "Show clients list will be here soon\n";
     }
 
-    static void _ManageUsersScreen()
-    {
-        cout << setw(37) << left << "" << "Show clients list will be here soon\n";
-    }
-
-    static void _ExitScreen()
+    static void _ShowExitScreen()
     {
         cout << setw(37) << left << "" << "Show clients list will be here soon\n";
     }
@@ -88,47 +90,47 @@ private :
             case enMainMenuOptions::eAddNewClient : 
             {
                 system("clear");
-                _AddNewClientScreen();
+                _ShowAddNewClientScreen();
                _GoBackToMainMenu();
                 break;
             }
             case enMainMenuOptions::eDeleteClient :
             {
                 system("clear");
-                _DeleteClientScreen();
+                _ShowDeleteClientScreen();
                _GoBackToMainMenu();
                 break; 
             }
             case enMainMenuOptions::eUpdateClient : 
             {
                 system("clear");
-                _UpdateClientScreen(); 
+                _ShowUpdateClientScreen(); 
                _GoBackToMainMenu(); 
                 break; 
             }
             case enMainMenuOptions::eFindClient :
             {
                 system("clear");
-                _FindClientScreen();
+                _ShowFindClientScreen();
                 _GoBackToMainMenu();
                 break;
             }
             case enMainMenuOptions::eShowTransactionMenu :
             {
                 system("clear");
-                _TransactionMenuScreen();
+                _ShowTransactionMenuScreen();
                 break; 
             }
             case enMainMenuOptions::eManageUsers :
             {
                 system("clear");
-                _ManageUsersScreen();
+                _ShowManageUsersScreen();
                 break;
             }
             case enMainMenuOptions::eExit :
             {
                 system("clear");
-                _ExitScreen();
+                _ShowExitScreen();
                 // Login
                 break;
             }
