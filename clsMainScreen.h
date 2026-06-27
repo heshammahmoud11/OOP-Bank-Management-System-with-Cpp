@@ -6,7 +6,13 @@
 #include"clsScreen.h"
 #include"clsClientListScreen.h"
 #include"clsAddNewClientScreen.h"
+#include"clsDeleteClientScreen.h"
+#include"clsUpdateClientScreen.h"
+#include"clsFindClientScreen.h"
+#include"clsTransactionMenuScreen.h"
 using namespace std; 
+
+
 
 
 // clsMainScreen inherited protectedly from clsScreen class (all public and protected calss in clsCreen) will be protected in (clsMainScreen)
@@ -29,7 +35,7 @@ private :
 
     static void _GoBackToMainMenu()
     {
-        cout << setw(37) << left << "" << "\n\t Press any key to go back to Main Menu...\n";
+        cout << "\n" << setw(37) << left << "" << "\tPress any key to go back to Main Menu...\n";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cin.get();
         ShowMainMenu();
@@ -47,22 +53,23 @@ private :
 
     static void _ShowDeleteClientScreen()
     {
-        cout << setw(37) << left << "" << "Show clients list will be here soon\n";
+        clsDeleteClientScreen::DeleteClient();   
     }
 
     static void _ShowUpdateClientScreen()
     {
-        cout << setw(37) << left << "" << "Show clients list will be here soon\n";
+        clsUpdateClientScreen::UpdateClient();
     }
 
     static void _ShowFindClientScreen()
     {
-        cout << setw(37) << left << "" << "Show clients list will be here soon\n";
+        clsFindClientScreen::FindClientScreen(); 
     }
 
     static void _ShowTransactionMenuScreen()
     {
-        cout << setw(37) << left << "" << "Show clients list will be here soon\n";
+        clsTransactionMenuScreen::ShowTransactionMenuScreen();
+    
     }
 
     static void _ShowManageUsersScreen()
@@ -119,6 +126,7 @@ private :
             {
                 system("clear");
                 _ShowTransactionMenuScreen();
+               _GoBackToMainMenu();
                 break; 
             }
             case enMainMenuOptions::eManageUsers :
