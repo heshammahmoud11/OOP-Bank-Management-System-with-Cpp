@@ -269,7 +269,7 @@ public:
 
        if (Number >= 100 && Number <= 199)
        {
-           return  "One Hundred " + NumberToText(Number % 100);
+           return  " One Hundred " + NumberToText(Number % 100);
        }
 
        if (Number >= 200 && Number <= 999)
