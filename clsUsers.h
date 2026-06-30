@@ -136,6 +136,10 @@ private :
 
 
 public :
+    enum enPermission { eAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
+                        pUPdateClient = 8, pFindClient = 16, pTransactions = 32, pManageUsers = 64};
+
+
     clsUsers(enMode Mode, string FirstName, string LastName, string Email, 
              string Phone, string UserName, string Password, int Permission) : clsPerson(FirstName, LastName, Email, Phone)
              {
@@ -278,6 +282,9 @@ public :
             }
 
         }
+
+        // if user not empty -> save
+        return enSaveResults::svFaildEmptyObject;
     }
 
     static bool IsUserExist(string UserName)
