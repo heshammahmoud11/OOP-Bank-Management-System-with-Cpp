@@ -5,6 +5,9 @@
 #include<limits>
 #include"clsScreen.h"
 #include"clsInputValidate.h"
+#include"clsListUsersScreen.h"
+#include"clsAddNewUserScreen.h"
+#include"clsDeleteUserScreen.h"
 
 
 class clsManageUserScreen : protected clsScreen
@@ -36,17 +39,20 @@ private :
 
     static void _ShowListUsersScreen()
     {
-        cout << setw(37) << left << "" << "\t List Users will be here soon\n";
+        // cout << setw(37) << left << "" << "\t List Users will be here soon\n";
+        clsListUsersScreen::ShowListUsersScreen(); 
     }
 
     static void _ShowAddNewUserScreen()
     {
-        cout << setw(37) << left << "" << "\t Add New Users will be here soon\n";
+        // cout << setw(37) << left << "" << "\t Add New Users will be here soon\n";
+        clsAddNewUserScreen::ShowAddNewUserScreen();
     }
 
     static void _ShowDeleteUserScreen()
     {
-        cout << setw(37) << left << "" << "\t Delete Users will be here soon\n";
+        // cout << setw(37) << left << "" << "\t Delete Users will be here soon\n";
+        clsDeleteUserScreen::ShowDeleteUserScreen();
     }
     
     static void _ShowUpdateUserScreen()
