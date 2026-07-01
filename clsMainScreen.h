@@ -1,3 +1,5 @@
+
+
 #include<iostream>
 #include"clsBankClient.h"
 #include"clsInputValidate.h"
@@ -10,6 +12,7 @@
 #include"clsUpdateClientScreen.h"
 #include"clsFindClientScreen.h"
 #include"clsTransactionMenuScreen.h"
+#include"clsManageUserScreen.h"
 using namespace std; 
 
 
@@ -74,7 +77,7 @@ private :
 
     static void _ShowManageUsersScreen()
     {
-        cout << setw(37) << left << "" << "Show clients list will be here soon\n";
+        clsManageUserScreen::ShowManageUsersScreen();
     }
 
     static void _ShowExitScreen()
@@ -133,6 +136,7 @@ private :
             {
                 system("clear");
                 _ShowManageUsersScreen();
+               _GoBackToMainMenu();
                 break;
             }
             case enMainMenuOptions::eExit :
