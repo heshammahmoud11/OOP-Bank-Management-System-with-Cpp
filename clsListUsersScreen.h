@@ -32,6 +32,8 @@ public :
 
         _DrawScreenHeader(title, subTitle);
 
+        cout << "\n Size: " << vUsers.size() <<endl;
+
 
         // build the list header
 
