@@ -19,7 +19,7 @@ private :
     string _UserName; 
     string _Password;
     int _Permission;
-    bool _Marked4Delete;
+    bool _Marked4Delete = false;
 
 
 
@@ -58,10 +58,10 @@ private :
         if(myFile.is_open())
         {
             string line;
-            for (clsUsers c : vUsers ) 
+            for (clsUsers & c : vUsers ) 
             {
                 // write only records that are not marked for delete
-                if(c.MarkForDelete() == true)
+                if(c.MarkForDelete() == false)
                 {
                     line = _convertUserObjectToLine(c);
                     myFile << line << endl;
@@ -77,7 +77,7 @@ private :
         vector<clsUsers> vUserData;
 
         fstream myFile;
-        myFile.open("Users.txt", ios::in); // read Data From file and get it in file
+        myFile.open("Users.txt", ios::in); // read & get the Data From file 
 
         if(myFile.is_open())
         {
@@ -302,7 +302,7 @@ public :
         {
             if(c.GetUserName() == _UserName)
             {
-                c._Marked4Delete == true;
+                c._Marked4Delete = true;
                 break;
             }
         }
