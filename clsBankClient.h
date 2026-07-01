@@ -215,8 +215,8 @@ public:
                 clsBankClient Client = _ConvertLineToClientObject(line);
                 if(Client.AccountNumber() == AccountNumber)
                 {
-                    myFile.close();
-                    return Client;
+                    myFile.close(); 
+                    return Client;  
                 }
                 
                 vClients.push_back(Client);
@@ -225,7 +225,7 @@ public:
             myFile.close();
         }
 
-        // Return ? -> Return Empty Client Object
+        // if there is no Full client -> Return Empty Client Object
         return _GetEmptyClientObject();
 
 
@@ -326,7 +326,7 @@ public:
             }
         }
 
-        _SaveClientDataToFile(_vClients);
+         _SaveClientDataToFile(_vClients);
 
         *this = _GetEmptyClientObject();
 
@@ -354,6 +354,26 @@ public:
         }
 
         return balanceCnt;
+    }
+    
+    // this function must be non-static (no one from outside can access without Object)
+    void Deposit(double amount)
+    {
+        _AccountBalance += amount;
+        Save(); 
+    } 
+
+    bool Withdraw(double amount)
+    {
+        if(amount > _AccountBalance)
+            return false;
+        else 
+        {
+           _AccountBalance -= amount;
+            Save();
+        }
+        
+        return true; 
     }
 
 
