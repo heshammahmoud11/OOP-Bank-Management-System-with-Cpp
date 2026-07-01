@@ -8,6 +8,8 @@
 #include"clsListUsersScreen.h"
 #include"clsAddNewUserScreen.h"
 #include"clsDeleteUserScreen.h"
+#include"clsUpdateUserScreen.h"
+#include"clsFindUserScreen.h"
 
 
 class clsManageUserScreen : protected clsScreen
@@ -57,17 +59,19 @@ private :
     
     static void _ShowUpdateUserScreen()
     {
-        cout << setw(37) << left << "" << "\t Update Users will be here soon\n";
+        // cout << setw(37) << left << "" << "\t Update Users will be here soon\n";
+        clsUpdateUserScreen::ShowUpdateUserScreen();
     }
 
     static void _ShowFindUserScreen()
     {
-        cout << setw(37) << left << "" << "\t Find Users will be here soon\n";
+        // cout << setw(37) << left << "" << "\t Find Users will be here soon\n";
+        clsFindUserScreen::ShowFindUserScreen();
     }
 
     static void _ShowMainMenuScreen()
     {
-        cout << setw(37) << left << "" << "\t Go To Main Menu will be here soon\n";
+        // cout << setw(37) << left << "" << "\t Go To Main Menu will be here soon\n";
     }
 
     static void _PerformManageUsersMenu(enManageUsersMenu option) 
