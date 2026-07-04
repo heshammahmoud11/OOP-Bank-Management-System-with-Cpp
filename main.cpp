@@ -5,6 +5,8 @@
 #include"clsUtil.h"
 #include"clsMainScreen.h"
 #include"clsClientListScreen.h"
+#include"clsLoginScreen.h"
+
 
 
 using namespace std; 
@@ -13,8 +15,13 @@ using namespace std;
 
 int main()
 {
-    // sleep(15);
-    clsMainScreen::ShowMainMenu();
+    // clsMainScreen::ShowMainMenu();
+
+
+    // Skip the "Circular referance" error.
+    while (true)
+       clsLoginScreen::ShowLoginScreen();
+
     return 0;
 }
 
