@@ -33,7 +33,7 @@ private :
      user.SetPassword(clsInputValidate::ReadString());
 
      cout << "\t Enter the Permission: ";
-     _ReadPermission2Set();
+     user.SetPermission(_ReadPermission2Set());
    }
 
    static void _PrintUser(clsUsers user)
