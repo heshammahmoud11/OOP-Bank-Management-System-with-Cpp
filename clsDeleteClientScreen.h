@@ -4,6 +4,7 @@
 #include"clsScreen.h"
 #include"clsBankClient.h"
 #include"clsInputValidate.h"
+#include"clsUsers.h"
 
 
 class clsDeleteClientScreen : protected clsScreen
@@ -25,6 +26,11 @@ public :
 
     static void DeleteClient()
     {
+
+        if(!CheckAccessRights(clsUsers::enPermission::pDeleteClient))
+        {
+            return;
+        }
 
         _DrawScreenHeader("\t Delete Client Screen");
 

@@ -101,6 +101,12 @@ public :
 
     static void ShowTransactionMenuScreen()
     {
+
+        if(!CheckAccessRights(clsUsers::enPermission::pTransactions))
+        {
+            return;
+        }
+
         cout << system("clear");
         clsScreen::_DrawScreenHeader("\t Transaction Menu Screen");
 

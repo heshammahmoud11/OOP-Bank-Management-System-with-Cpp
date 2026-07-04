@@ -4,6 +4,7 @@
 #include"clsBankClient.h"
 #include"clsInputValidate.h"
 #include"clsScreen.h"
+#include"clsUsers.h"
 
 
 class clsAddNewClientScreen : protected clsScreen
@@ -52,6 +53,13 @@ public :
    
    static void AddNewClient()
    {
+
+    if(!CheckAccessRights(clsUsers::enPermission::pListClients))
+    {
+        return;
+    }
+
+
       clsScreen::_DrawScreenHeader("\t Add New client Screen");
 
       string clientNumber = "";
