@@ -1,7 +1,9 @@
 #pragma once
 
 #include<iostream>
+#include"Global.h"
 using namespace std;
+
 
 
 class clsScreen
@@ -19,4 +21,19 @@ protected :
 
     cout << "\n\t\t\t\t\t------------------------------------------\n\n";
   }
+
+  static bool CheckAccessRights(clsUsers::enPermission permission)
+  {
+    if(!CurrentUser.CheckAccessPermission(permission)) 
+    {
+        cout << "\t\t\t\t\t__________________________________________\n\n";
+        cout << "\t\t\t\t\t      Access Denied! Contact Your Admin.\n";
+        cout << "\t\t\t\t\t__________________________________________\n\n";
+
+        return false;
+    }
+    else 
+        return true;
+  }
 };
+
