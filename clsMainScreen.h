@@ -1,4 +1,5 @@
 
+#pragma once
 
 #include<iostream>
 #include"clsBankClient.h"
@@ -13,6 +14,7 @@
 #include"clsFindClientScreen.h"
 #include"clsTransactionMenuScreen.h"
 #include"clsManageUserScreen.h"
+#include"Global.h"
 using namespace std; 
 
 
@@ -80,10 +82,11 @@ private :
         clsManageUserScreen::ShowManageUsersScreen();
     }
 
-    static void _ShowExitScreen()
+    static void _Logiout()
     {
-        cout << setw(37) << left << "" << "Show clients list will be here soon\n";
+        CurrentUser = clsUsers::Find("", "");
     }
+
 
 
     static void _PerformMainMenuOptoin(enMainMenuOptions mainOption)
@@ -142,12 +145,14 @@ private :
             case enMainMenuOptions::eExit :
             {
                 system("clear");
-                _ShowExitScreen();
+                _Logiout();
                 // Login
                 break;
             }
         }
     }
+
+
 
 
 public : 
