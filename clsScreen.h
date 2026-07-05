@@ -19,7 +19,12 @@ protected :
         cout << "\n\t\t\t\t\t " << subTitle;
     }
 
-    cout << "\n\t\t\t\t\t------------------------------------------\n\n";
+    cout << "\n\t\t\t\t\t------------------------------------------\n";
+
+    // Add Logedin User & Current Date
+
+    cout << "\n\t\t\t\t\t User: " << CurrentUser.GetUserName() << endl;
+    cout << "\t\t\t\t\t Date: " << clsDate::DateToString(clsDate()) << "\n\n";
   }
 
   static bool CheckAccessRights(clsUsers::enPermission permission)
