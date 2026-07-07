@@ -10,16 +10,28 @@
 class clsLoginScreen : protected clsScreen
 {
 private : 
-    static void _Login()
+
+
+    static bool _Login()
     {
         bool LoginFaild = false;
         string username, password;
+        short FaildCnt = 0;
 
         do
         {
+
             if(LoginFaild) // Means -> if(LoginFaild == true)
             {
+                FaildCnt++;
                 cout << "\n\t Invalid Username/Password!\n\n";
+                cout <<"\t\nYou have " << (3 - FaildCnt) << " Trial to Login.\n";
+            }
+
+            if(FaildCnt == 3)
+            {
+                cout << "\n System Locked After 3 Faild Trials, Try Again Later!\n";
+                return false;  
             }
 
             cout << "\n\t Enter Username? : ";
@@ -31,19 +43,25 @@ private :
 
             LoginFaild = CurrentUser.isEmpty();
 
+
         }while(LoginFaild);
 
+        CurrentUser.RegisterLogin();
+        
         clsMainScreen::ShowMainMenu();
+
+        return true;
 
     }
 
 public : 
-    static void ShowLoginScreen()
+    static bool ShowLoginScreen()
     {
         system("clear");
 
         _DrawScreenHeader("\t  Login Screen");
 
-        _Login();
+        return  _Login();
+
     }
 };
