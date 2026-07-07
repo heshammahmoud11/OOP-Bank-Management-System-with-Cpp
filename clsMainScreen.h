@@ -82,6 +82,7 @@ private :
         clsManageUserScreen::ShowManageUsersScreen();
     }
 
+    
     static void _Logiout()
     {
         CurrentUser = clsUsers::Find("", "");
