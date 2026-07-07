@@ -21,7 +21,17 @@ private :
     int _Permission;
     bool _Marked4Delete = false;
 
+    string _PrepareLoginRecord(string seperator = "#//#")
+    {
+        string loginRecord = "";
 
+        loginRecord += clsDate::GetSystemDateTimeString() + seperator;
+        loginRecord += GetUserName() + seperator;
+        loginRecord += GetPassword() + seperator;
+        loginRecord += to_string(GetPermission());
+
+        return loginRecord;
+    }
 
     static string _convertUserObjectToLine(clsUsers user, string seperator = "#//#")
     {
@@ -340,5 +350,22 @@ public :
             return false;
         }
     }
+    // Generate Login User Action in logFile
+
+    void RegisterLogin()
+    {
+        string stDateLine = _PrepareLoginRecord(" | ");
+
+        fstream myFile;
+        myFile.open("LoginRegister.txt", ios::out | ios::app);
+
+        if(myFile.is_open())
+        {
+            myFile << stDateLine << endl;
+            myFile.close();
+        }
+    }
+
+
 }; 
 
