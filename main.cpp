@@ -6,6 +6,7 @@
 #include"clsMainScreen.h"
 #include"clsClientListScreen.h"
 #include"clsLoginScreen.h"
+#include <unistd.h>
 
 
 
@@ -19,8 +20,16 @@ int main()
 
 
     // Skip the "Circular referance" error.
+    // sleep(7);
+
     while (true)
-       clsLoginScreen::ShowLoginScreen();
+    {
+        if(!clsLoginScreen::ShowLoginScreen())
+        {
+            break; 
+        }
+        // clsLoginScreen::ShowLoginScreen();
+    }
 
     return 0;
 }
