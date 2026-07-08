@@ -15,6 +15,7 @@
 #include"clsTransactionMenuScreen.h"
 #include"clsManageUserScreen.h"
 #include"Global.h"
+#include"clsRegisterLoginScreen.h"
 using namespace std; 
 
 
@@ -28,13 +29,13 @@ private :
     {
         eListClients = 1, eAddNewClient = 2, eDeleteClient = 3,
         eUpdateClient = 4, eFindClient = 5, eShowTransactionMenu = 6,
-        eManageUsers = 7, eExit = 8
+        eManageUsers = 7, eRegisterLogin = 8,  eExit = 9
     };
 
     static short _ReadMainMenuOption()
     {
-        cout << setw(37) << left << "" << "Choose what do you want to do ? [1 - 8] : ";
-        short number = clsInputValidate::ReadDblNumberBetween(1, 8, "Enter Number From 1 to 8:  ");
+        cout << setw(37) << left << "" << "Choose what do you want to do ? [1 - 9] : ";
+        short number = clsInputValidate::ReadDblNumberBetween(1, 9, "Enter Number From 1 to 9:  ");
         return number;
     }
 
@@ -80,6 +81,12 @@ private :
     static void _ShowManageUsersScreen()
     {
         clsManageUserScreen::ShowManageUsersScreen();
+    }
+
+    static void _ShowRegisterLoginScreen()
+    {
+        // cout <<"\n register login screen will be here soon\n";
+        clsRegisterLoginScreen::ShowRegisterLogin();
     }
 
     
@@ -143,6 +150,13 @@ private :
                _GoBackToMainMenu();
                 break;
             }
+            case enMainMenuOptions::eRegisterLogin :
+            {
+                system("clear");
+               _ShowRegisterLoginScreen();
+               _GoBackToMainMenu();
+                break;
+            }
             case enMainMenuOptions::eExit :
             {
                 system("clear");
@@ -176,7 +190,8 @@ public :
         cout << setw(37) << left << "" << "\t[5] Find Client.\n";
         cout << setw(37) << left << "" << "\t[6] Transactions.\n";
         cout << setw(37) << left << "" << "\t[7] Manage Users.\n";
-        cout << setw(37) << left << "" << "\t[8] LogOut.\n"; 
+        cout << setw(37) << left << "" << "\t[8] Login Register.\n";
+        cout << setw(37) << left << "" << "\t[9] LogOut.\n"; 
 
         _PerformMainMenuOptoin((enMainMenuOptions)_ReadMainMenuOption());
      }
