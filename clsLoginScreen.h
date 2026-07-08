@@ -7,6 +7,7 @@
 #include"Global.h"
 
 
+
 class clsLoginScreen : protected clsScreen
 {
 private : 
