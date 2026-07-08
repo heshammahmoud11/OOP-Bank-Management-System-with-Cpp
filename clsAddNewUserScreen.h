@@ -111,6 +111,13 @@ private :
             permission += clsUsers::enPermission::pManageUsers; 
         }
 
+        cout << "\nRegister Login ? [Y/N] : ";
+        cin >> ans;
+        if(towlower(ans) == 'y')
+        {
+            permission += clsUsers::enPermission::pRegisterLogin; 
+        }
+
         return permission;
    }
 
