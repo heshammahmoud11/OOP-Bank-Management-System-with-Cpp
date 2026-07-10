@@ -377,6 +377,23 @@ public:
     }
 
 
+    bool Transfer(float amount, clsBankClient & DestinationClient)
+    {
+        // currently we stand on the sourceClient
+        // comabe the amount with sourceclient
+        if(amount > GetAccountBalance())
+        {
+            return false;
+        }
+
+        // make withdraw operation from source & put it in the destination
+        Withdraw(amount);
+        DestinationClient.Deposit(amount);
+
+        return true;
+    }
+
+
 
 }; 
 
