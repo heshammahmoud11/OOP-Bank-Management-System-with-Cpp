@@ -6,6 +6,8 @@
 #include<fstream>
 #include"clsPerson.h"
 #include"clsString.h"
+#include"clsDate.h"
+#include"clsUtil.h"
 
 using namespace std; 
 
@@ -28,14 +30,11 @@ private :
 
         loginRecord += clsDate::GetSystemDateTimeString() + seperator;
         loginRecord += GetUserName() + seperator;
-        loginRecord += GetPassword() + seperator;
+        loginRecord += clsUtil::EncryptText(GetPassword()) + seperator;
         loginRecord += to_string(GetPermission());
 
         return loginRecord;
     }
-
-
-
 
     static string _convertUserObjectToLine(clsUsers user, string seperator = "#//#")
     {
@@ -46,7 +45,7 @@ private :
         sword += user.GetEmail()  + seperator;
         sword += user.GetPhone()  + seperator;
         sword += user.GetUserName()  + seperator;
-        sword += user.GetPassword()  + seperator;
+        sword += clsUtil::EncryptText(user.GetPassword())  + seperator;
         sword += to_string(user.GetPermission()) ;
 
         return sword;
@@ -59,7 +58,7 @@ private :
 
         vector<string> vUserData = clsString::Split(line, seperator);
 
-        return clsUsers(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2], vUserData[3], vUserData[4], vUserData[5], stoi(vUserData[6])); 
+        return clsUsers(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2], vUserData[3], vUserData[4], clsUtil::DecryptText(vUserData[5]), stoi(vUserData[6])); 
 
     }
 
@@ -108,27 +107,6 @@ private :
         return vUserData;
 
     }
-
-    // static vector<clsUsers> _LoadUserLoginFromFile()
-    // {
-    //     vector<clsUsers> vUsers;
-
-    //     fstream myFile;
-    //     myFile.open("LoginRegister.txt", ios::in);  // read and get data from file
-
-    //     if(myFile.is_open())
-    //     {
-    //         string line = ""; 
-    //         while(getline(myFile, line))
-    //         {
-    //             clsUsers user = _ConvertLineToUserObject(line);
-    //             vUsers.push_back(user);
-    //         }
-    //         myFile.close();
-    //     }
-
-    //     return vUsers;
-    // }
 
     void _AddUserLineToFile(string line)
     {
@@ -194,7 +172,8 @@ public :
         string Password;
         int Permission;
     };
-        static stUserRecord _ConvertLoginLine2Record(string line, string seperator= " | ")
+
+    static stUserRecord _ConvertLoginLine2Record(string line, string seperator= " | ")
     {
         stUserRecord record;
 
@@ -202,7 +181,7 @@ public :
 
         record.DateTime = vStringRecord[0];
         record.UserName = vStringRecord[1];
-        record.Password = vStringRecord[2];
+        record.Password = clsUtil::DecryptText(vStringRecord[2]);
         record.Permission = stoi(vStringRecord[3]);
 
         return record;
@@ -402,7 +381,7 @@ public :
     // Generate Login User Action in logFile
 
     void RegisterLogin()
-    {
+    { 
         string stDateLine = _PrepareLoginRecord();
 
         fstream myFile;
