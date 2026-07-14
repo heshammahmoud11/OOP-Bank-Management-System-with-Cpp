@@ -217,21 +217,17 @@ public:
 
     }
 
-    static string  EncryptText(string Text, short EncryptionKey)
+    static string  EncryptText(string Text, short EncryptionKey = 3)
     {
-
         for (int i = 0; i <= Text.length(); i++)
         {
-
-            Text[i] = char((int)Text[i] + EncryptionKey);
-
+            Text[i] = char( (int)Text[i] + EncryptionKey );
         }
 
         return Text;
-
     }
 
-    static string  DecryptText(string Text, short EncryptionKey)
+    static string  DecryptText(string Text, short EncryptionKey = 3)
     {
 
         for (int i = 0; i <= Text.length(); i++)
