@@ -5,6 +5,7 @@
 #include "clsString.h"
 #include <vector>
 #include <fstream>
+#include"clsDate.h"
 
 using namespace std;
 
@@ -19,6 +20,38 @@ private:
     string _PinCode;
     float _AccountBalance;
     bool _MarkedForDelete = false;
+
+
+
+
+    string _PrepareTransferLogin(float amount, clsBankClient DestinationClient, string userName, string seperator = "#//#")
+    {
+        string word = "";
+        
+        word += clsDate::GetSystemDateTimeString() + seperator;
+        word += AccountNumber() + seperator; // account number for source client
+        word += DestinationClient.AccountNumber() + seperator;
+        word += to_string(amount) + seperator; // amount for the source client
+        word += to_string(GetAccountBalance()) + seperator; // account balance for source client
+        word += to_string(DestinationClient.GetAccountBalance()) + seperator;
+        word += userName;
+
+        return word;
+    }
+
+    void _RegisterTransferLogs(float amount, clsBankClient DestinationClient, string username)
+    {
+        fstream myFile;
+        myFile.open("TransferLogin.txt", ios::out | ios::app);
+
+        string line = _PrepareTransferLogin(amount, DestinationClient, username);
+
+        if(myFile.is_open())
+        {
+            myFile << line << endl;
+            myFile.close();
+        }
+    }
 
 
     static clsBankClient _ConvertLineToClientObject(string line, string seperator = "#//#")
@@ -148,6 +181,34 @@ public:
         _PinCode = PinCode;
         _AccountBalance = AccountBalance;
 
+    }
+
+    struct stTransferLogRecord
+    {
+        string DateTime;
+        string SourceClient; 
+        string DestinationClient; 
+        float amount;  
+        float srcBalance;  
+        float destBalance;
+        string userName;  
+    };
+
+    static stTransferLogRecord _ConvertLine2Record(string line, string seperator = "#//#")
+    {
+        stTransferLogRecord record;
+
+        vector<string> vString = clsString::Split(line, seperator);
+
+        record.DateTime = vString[0];
+        record.SourceClient = vString[1];
+        record.DestinationClient = vString[2];
+        record.amount = stod(vString[3]);
+        record.srcBalance = stod(vString[4]);
+        record.destBalance = stod(vString[5]);
+        record.userName = vString[6];
+
+        return record;
     }
 
     bool IsEmpty()
@@ -377,7 +438,7 @@ public:
     }
 
 
-    bool Transfer(float amount, clsBankClient & DestinationClient)
+    bool Transfer(float amount, clsBankClient & DestinationClient, string username)
     {
         // currently we stand on the sourceClient
         // comabe the amount with sourceclient
@@ -386,12 +447,45 @@ public:
             return false;
         }
 
-        // make withdraw operation from source & put it in the destination
-        Withdraw(amount);
+        // make withdraw operation from source client
+        // make deposit operation from destination client
+        Withdraw(amount); // this line euqal to (sourceClient.withdraw)
         DestinationClient.Deposit(amount);
+
+
+        // this line record the transfer operation (date, time, amount, source client, destination client) -> put it in the file
+        _RegisterTransferLogs(amount, DestinationClient, username);
 
         return true;
     }
+
+
+    static vector<stTransferLogRecord> GetTransferLogList()
+    {
+        vector<stTransferLogRecord> vTranferLog;
+
+        fstream myFile;
+        myFile.open("TransferLogin.txt", ios::in); // Read and Get Data from File
+
+        string line = "";
+
+        if(myFile.is_open())
+        {
+            while(getline(myFile, line))
+            {
+                stTransferLogRecord record = _ConvertLine2Record(line);
+                vTranferLog.push_back(record);
+            }
+            myFile.close();
+        }
+
+        return vTranferLog;
+    }
+
+    
+
+    // Add all logs for any transfer operation
+
 
 
 
