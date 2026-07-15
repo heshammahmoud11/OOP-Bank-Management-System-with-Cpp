@@ -4,6 +4,8 @@
 #include"clsScreen.h"
 #include"clsInputValidate.h"
 #include"clsBankClient.h"
+#include"Global.h"
+
 
 
 class clsTransferScreen : protected clsScreen
@@ -12,7 +14,7 @@ class clsTransferScreen : protected clsScreen
 private : 
      static void _PrintClientCard(clsBankClient client)
      {
-        cout <<"\t\t ## Client Card ##\n";
+        cout <<"\n\t\t ## Client Card ##\n";
         cout <<"\t\t________________________________\n";
         cout << "\n\t\t Full Name     : " << client.FullName()  << endl;
         cout << "\t\t AccountNumber : " << client.AccountNumber()  << endl;
@@ -72,9 +74,12 @@ public :
 
         if(tolower(ans) == 'y')
         {
-            if(SourceClient.Transfer(amount, DestinationClient))
+            if(SourceClient.Transfer(amount, DestinationClient, CurrentUser.GetUserName()))
             {
                 cout <<"\n\t\t Transfer Done Successfully\n";
+
+                // here i will add register login for  any transfer operation
+
             }else
             {
                 cout << "\n\t\t Transfer Faild\n";
