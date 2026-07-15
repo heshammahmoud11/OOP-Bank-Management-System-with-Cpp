@@ -26,7 +26,6 @@ int main()
         {
             break; 
         }
-        // clsLoginScreen::ShowLoginScreen();
     }
 
     return 0;
