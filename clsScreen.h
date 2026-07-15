@@ -2,6 +2,7 @@
 
 #include<iostream>
 #include"Global.h"
+#include"clsDate.h"
 using namespace std;
 
 
