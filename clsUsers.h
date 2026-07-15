@@ -30,7 +30,7 @@ private :
 
         loginRecord += clsDate::GetSystemDateTimeString() + seperator;
         loginRecord += GetUserName() + seperator;
-        loginRecord += clsUtil::EncryptText(GetPassword()) + seperator;
+        loginRecord += GetPassword() + seperator;
         loginRecord += to_string(GetPermission());
 
         return loginRecord;
@@ -45,7 +45,7 @@ private :
         sword += user.GetEmail()  + seperator;
         sword += user.GetPhone()  + seperator;
         sword += user.GetUserName()  + seperator;
-        sword += clsUtil::EncryptText(user.GetPassword())  + seperator;
+        sword += user.GetPassword() + seperator;
         sword += to_string(user.GetPermission()) ;
 
         return sword;
@@ -58,7 +58,7 @@ private :
 
         vector<string> vUserData = clsString::Split(line, seperator);
 
-        return clsUsers(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2], vUserData[3], vUserData[4], clsUtil::DecryptText(vUserData[5]), stoi(vUserData[6])); 
+        return clsUsers(enMode::UpdateMode, vUserData[0], vUserData[1], vUserData[2], vUserData[3], vUserData[4], vUserData[5], stoi(vUserData[6])); 
 
     }
 
@@ -181,7 +181,7 @@ public :
 
         record.DateTime = vStringRecord[0];
         record.UserName = vStringRecord[1];
-        record.Password = clsUtil::DecryptText(vStringRecord[2]);
+        record.Password = vStringRecord[2];
         record.Permission = stoi(vStringRecord[3]);
 
         return record;
