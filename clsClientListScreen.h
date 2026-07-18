@@ -37,7 +37,7 @@ public :
         string title = "\t Client List Screen";
         string subTitle = "\t   ( " + to_string(vClients.size()) + " ) Client";
 
-        clsScreen::_DrawScreenHeader(title, subTitle);
+        _DrawScreenHeader(title, subTitle);
         
 
         cout <<"\n--------------------------------------------------------------------";
